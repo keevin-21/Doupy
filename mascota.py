@@ -33,9 +33,9 @@ class Mascota:
             self.estado = "Feliz"
 
     def actualizar(self):
-        self.hambre = min(100, self.hambre + 1)  # incrementa hambre con el tiempo
-        self.energia = max(0, self.energia - 1)  # decrementa energia con el tiempo
-        self.higiene = max(0, self.higiene - 1)  # decrementa higiene con el tiempo
+        self.hambre = min(100, self.hambre + 0.1)  # incrementa hambre con el tiempo
+        self.energia = max(0, self.energia - 0.1)  # decrementa energia con el tiempo
+        self.higiene = max(0, self.higiene - 0.1)  # decrementa higiene con el tiempo
         
         # SÓ PARA VER SE FUNCIONA, FUNCIONA MUITO RÁPIDO KKKKKKKKKK
         print("Hambre: ", self.hambre)

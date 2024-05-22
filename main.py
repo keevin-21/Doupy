@@ -1,6 +1,5 @@
 import pygame
 from mascota import Mascota
-from boton import Boton
 
 class Juego:
     def __init__(self):
@@ -10,11 +9,14 @@ class Juego:
         self.reloj = pygame.time.Clock()
         self.mascota = Mascota()
         self.corriendo = True
+        
+        '''
         self.botones = [
             Boton(50, 500, 150, 50, "Alimentar", self.mascota.alimentar),
             Boton(225, 500, 150, 50, "Dormir", self.mascota.dormir),
             Boton(400, 500, 150, 50, "Bañarse", self.mascota.banar)
         ]
+        '''
 
     def ejecutar(self):
         while self.corriendo:
