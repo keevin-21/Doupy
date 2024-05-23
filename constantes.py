@@ -24,7 +24,7 @@ CENTRO_ANCHO = 640 / 2
 CENTRO_ALTO = 480 / 2
 
 # Fuente
-FUENTE = pygame.font.SysFont("comicsansms", 35, True, False)
+# FUENTE = pygame.font.SysFont("comicsansms", 35, True, False)
 
 # Reloj
 RELOJ_JUEGO = pygame.time.Clock()
@@ -37,8 +37,22 @@ BLANCO = (255, 255, 255)
 DIRECTORIO_PRINCIPAL = os.path.dirname(__file__)
 DIRECTORIO_IMAGENES = os.path.dirname(DIRECTORIO_PRINCIPAL, "sprites")
 DIRECTORIO_MUSICA = os.path.dirname(DIRECTORIO_PRINCIPAL, "soundtrack")
-# no existe ^^^
 
 # Sprites
+BACKGROUND = pygame.image.load(os.path.join(DIRECTORIO_PRINCIPAL, "background.png"))
+
+SPRITE_COMIDA = pygame.image.load(os.path.join(DIRECTORIO_PRINCIPAL, "apple_sprites.png"))
 SPRITE_BOTON_COMIDA = pygame.image.load(os.path.join(DIRECTORIO_PRINCIPAL, "apple_button.png"))
+
+SPRITE_JABON = pygame.image.load(os.path.join(DIRECTORIO_PRINCIPAL, "soap_sprites.png"))
 SPRITE_BOTON_JABON = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, "soap_button.png"))
+
+SPRITE_BARRA = pygame.image.load(os.path.join(DIRECTORIO_PRINCIPAL, "bar.png"))
+
+SPRITE_MOUSE = pygame.image.load(os.path.join(DIRECTORIO_PRINCIPAL, "mouse_sprites.png"))
+
+SPRITE_COMER = pygame.image.load(os.path.join(DIRECTORIO_PRINCIPAL, "sprites_eat.png"))
+SPRITE_ACARICIAR = pygame.image.load(os.path.join(DIRECTORIO_PRINCIPAL, "sprites_pet.png"))
+
+# Provisional
+SPRITE_LINK = pygame.image.load(os.path.join(DIRECTORIO_PRINCIPAL, "link_sprites.png"))

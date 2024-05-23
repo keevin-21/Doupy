@@ -11,10 +11,10 @@ class BotonJabon(pygame.sprite.Sprite):
         self.click = False
         self.imagen = self.imagenBoton
         self.imagen = pygame.transform.scale(self.imagen, (64 + 32, 64 + 32))
-        self.ancho = CENTRO_ANCHO
-        self.alto = CENTRO_ALTO - 200
+        self.posicionX = CENTRO_ANCHO
+        self.posicionY = CENTRO_ALTO - 200
         self.rect = self.imagen.get_rect()
-        self.rect.topleft = self.ancho, self.alto
+        self.rect.topleft = self.posicionX, self.posicionY
 
     def update(self):
         self.imagen = pygame.transform.scale(self.image, (64 + 32, 64 +32))

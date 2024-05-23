@@ -1,45 +1,41 @@
 import pygame
+from constantes import leerSpriteSheet, SPRITE_LINK, SPRITE_COMER, SPRITE_ACARICIAR, CENTRO_ALTO, CENTRO_ANCHO
 
-class Mascota:
+class Doupy(pygame.sprite.Sprite):
     def __init__(self):
-        self.energia = 100
-        self.hambre = 0
-        self.higiene = 100
-        self.estado = "Feliz"
+        pygame.sprite.Sprite.__init__(self)
+        self.imagenDoupy = leerSpriteSheet(0, 3, SPRITE_LINK, 120, 130)
+        self.imagenComer = leerSpriteSheet(0, 3, SPRITE_COMER, 120, 130)
+        self.imagenAcariciar = leerSpriteSheet(0, 3, SPRITE_ACARICIAR, 120, 130)
 
-    def alimentar(self):
-        self.hambre = max(0, self.hambre - 10) # evita que el hambre menor que 0
-        self.energia = max(100, self.energia - 10) # evita que la energia sea mayor que 100
-        self.higiene = max(0, self.higiente - 10) # evita que la higiene sea menor que 0
-
-    def banar(self):
-        self.higiene = min(100, self.higiene + 40) # evita que la higiene sea mayor que 100
-        self.energia = min(100, self.energia - 10) # evita que la energia sea mayor que 100
-        self.hambre = min(100, self.hambre + 10) # evita que el hambre sea mayor que 100
-
-    def dormir(self):
-        self.energia = min(100, self.energia + 40) # evita que la energia sea mayor que 100
-        self.hambre = min(100, self.hambre + 10) # evita que el hambre sea mayor que 100
-        self.higiene = max(0, self.higiene - 10) # evita que la higiene sea menor que 0
-
-    def actualizarEstado(self):
-        if self.hambre > 60:
-            self.estado = "Hambriento"
-        elif self.higiene < 40:
-            self.estado = "Sucio"
-        elif self.energia < 30:
-            self.estado = "Cansado"
-        else:
-            self.estado = "Feliz"
-
-    def actualizar(self):
-        self.hambre = min(100, self.hambre + 0.1)  # incrementa hambre con el tiempo
-        self.energia = max(0, self.energia - 0.1)  # decrementa energia con el tiempo
-        self.higiene = max(0, self.higiene - 0.1)  # decrementa higiene con el tiempo
+        self.accion = 0 # 0 Doupy, 1 Comer, 2 Acariciar
+        self.indexFrame = 0
+        self.imagen = self.imagenDoupy[self.indexFrame]
+        self. imagen = pygame.transform.scale(self.imagen, (120, 130))
+        self.mascara = pygame.mask.from_surface(self.imagen)
         
-        # SÓ PARA VER SE FUNCIONA, FUNCIONA MUITO RÁPIDO KKKKKKKKKK
-        print("Hambre: ", self.hambre)
-        print("Energia: ", self.energia)
-        print("Higiene: ", self.higiene)
-        self.actualizarEstado()
+        # evento de la animacion del sprite
+        self.timerAnimacion = pygame.USEREVENT + 1
+        pygame.time.set_timer(self.timerAnimacion, 3000)
 
+        # configurar la posicion inicial del sprite
+        self.pocisionX = CENTRO_ANCHO
+        self.posicionY = CENTRO_ALTO
+        self.rect = self.image.get_rect()
+        self.rect.topleft = self.pocisionX, self.posicionY
+
+        # variables de control
+        self.comer = False
+        self.acariciar = False
+
+        # valores en las variables de estado
+        self.alimento = 200.00
+        self.limpio = 200.00
+        self.despierto = 200.00
+        self.felicidad = (self.alimentacion + self.limpio + self.despierto) // 3
+        
+        self.decrementarAlimentacion = pygame.USEREVENT + 2
+        pygame.time.set_timer(self.decrementarAlimentacion, 5000)
+
+        self.decrementarLimpieza = pygame.USEREVENT + 3
+        pygame.time.set_timer(self.decrementarLimpieza, 5000)

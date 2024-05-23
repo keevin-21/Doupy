@@ -1,51 +1,16 @@
 import pygame
 from mascota import Mascota
+from constantes import ANCHO_PANTALLA, ALTO_PANTALLA, BACKGROUND, grupoSprites 
+from barra import Barras
 
-class Juego:
-    def __init__(self):
-        pygame.init()
-        self.pantalla = pygame.display.set_mode((800, 600))
-        pygame.display.set_caption("Mascota Virtual")
-        self.reloj = pygame.time.Clock()
-        self.mascota = Mascota()
-        self.corriendo = True
-        
-        '''
-        self.botones = [
-            Boton(50, 500, 150, 50, "Alimentar", self.mascota.alimentar),
-            Boton(225, 500, 150, 50, "Dormir", self.mascota.dormir),
-            Boton(400, 500, 150, 50, "Bañarse", self.mascota.banar)
-        ]
-        '''
+pygame.init()
 
-    def ejecutar(self):
-        while self.corriendo:
-            for evento in pygame.event.get():
-                if evento.type == pygame.QUIT:
-                    self.corriendo = False
-                elif evento.type == pygame.MOUSEBUTTONDOWN:
-                    self.manejarEventoMouse(evento)
-            
-            self.mascota.actualizar()
-            self.dibujar()
+# se inicializa la musica
+pygame.mixer.music.set_volume(0.5)
+pygame.mixer.music.load("soundtrack/BGM.mp3")
+pygame.mixer.music.play(-1)
 
-            self.reloj.tick(60)
-        pygame.quit()
+BACKGROUND = pygame.transform.scale(BACKGROUND, (ANCHO_PANTALLA, ALTO_PANTALLA))
 
-    def manejarEventoMouse(self, evento):
-        for boton in self.botones:
-            if boton.isClick(evento.pos):
-                boton.accion()
-
-    def dibujar(self):
-        self.pantalla.fill((255, 255, 255))
-        font = pygame.font.Font(None, 36)
-        textoEstado = font.render(f"Estado: {self.mascota.estado}", True, (0, 0, 0))
-        self.pantalla.blit(textoEstado, (50, 50))
-        for boton in self.botones:
-            boton.dibujar(self.pantalla)
-        pygame.display.flip()
-
-if __name__ == "__main__":
-    juego = Juego()
-    juego.ejecutar()
+ventana = pygame.display.set_mode((ANCHO_PANTALLA, ALTO_PANTALLA))
+pygame.display.set_caption("Doupy")
