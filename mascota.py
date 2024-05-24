@@ -21,7 +21,7 @@ class Doupy(pygame.sprite.Sprite):
         # configurar la posicion inicial del sprite
         self.pocisionX = CENTRO_ANCHO
         self.posicionY = CENTRO_ALTO
-        self.rect = self.image.get_rect()
+        self.rect = self.imagen.get_rect()
         self.rect.topleft = self.pocisionX, self.posicionY
 
         # variables de control
@@ -32,7 +32,7 @@ class Doupy(pygame.sprite.Sprite):
         self.alimento = 200.00
         self.limpio = 200.00
         self.despierto = 200.00
-        self.felicidad = (self.alimentacion + self.limpio + self.despierto) // 3
+        self.felicidad = (self.alimento + self.limpio + self.despierto) // 3
         
         self.decrementarAlimentacion = pygame.USEREVENT + 2
         pygame.time.set_timer(self.decrementarAlimentacion, 5000)
