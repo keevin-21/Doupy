@@ -41,6 +41,7 @@ grupoComida = pygame.sprite.Group()
 grupoJabon = pygame.sprite.Group()
 
 
+
 # Game loop
 running = True
 while running:
