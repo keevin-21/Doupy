@@ -3,16 +3,16 @@ from constantes import leerSpriteSheet, SPRITE_LINK, SPRITE_COMER, SPRITE_ACARIC
 
 class Doupy(pygame.sprite.Sprite):
     def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
+        super().__init__()
         self.imagenDoupy = leerSpriteSheet(0, 3, SPRITE_LINK, 120, 130)
         self.imagenComer = leerSpriteSheet(0, 3, SPRITE_COMER, 120, 130)
         self.imagenAcariciar = leerSpriteSheet(0, 3, SPRITE_ACARICIAR, 120, 130)
 
         self.accion = 0 # 0 Doupy, 1 Comer, 2 Acariciar
         self.indexFrame = 0
-        self.imagen = self.imagenDoupy[self.indexFrame]
-        self. imagen = pygame.transform.scale(self.imagen, (120, 130))
-        self.mascara = pygame.mask.from_surface(self.imagen)
+        self.image = self.imagenDoupy[self.indexFrame]  # Correcto uso de 'image'
+        self.image = pygame.transform.scale(self.image, (120, 130))
+        self.mascara = pygame.mask.from_surface(self.image)
         
         # evento de la animacion del sprite
         self.timerAnimacion = pygame.USEREVENT + 1
@@ -21,7 +21,7 @@ class Doupy(pygame.sprite.Sprite):
         # configurar la posicion inicial del sprite
         self.pocisionX = CENTRO_ANCHO
         self.posicionY = CENTRO_ALTO
-        self.rect = self.imagen.get_rect()
+        self.rect = self.image.get_rect()
         self.rect.topleft = self.pocisionX, self.posicionY
 
         # variables de control
@@ -43,14 +43,14 @@ class Doupy(pygame.sprite.Sprite):
     # actualizar la animacion del sprite
     def update(self):
         if self.accion == 0:
-            self.imagen = self.imagenDoupy[self.indexFrame]
+            self.image = self.imagenDoupy[self.indexFrame]
         elif self.accion == 1:
-            self.imagen = self.imagenComer[self.indexFrame]
+            self.image = self.imagenComer[self.indexFrame]
         elif self.accion == 2:
-            self.imagen = self.imagenAcariciar[self.indexFrame]
+            self.image = self.imagenAcariciar[self.indexFrame]
 
-        self.imagen = pygame.transform.scale(self.imagen, (120, 130))
-        self.rect = self.imagen.get_rect()
+        self.image = pygame.transform.scale(self.image, (120, 130))
+        self.rect = self.image.get_rect()
         self.rect.topleft = self.pocisionX, self.posicionY
         self.felicidad = (self.alimento + self.limpio + self.despierto) // 3
     
@@ -58,9 +58,9 @@ class Doupy(pygame.sprite.Sprite):
         self.accion = nuevaAccion
         self.indexFrame = 0
     
-    # detecta el el mouse esta colisionando con el sprite
+    # detecta si el mouse esta colisionando con el sprite
     def colisionMouse(self):
-        if self.rect.collidepoint(pygame.mouse.get_pos()) == True and pygame.mouse.get_pressed()[0] == True:
+        if self.rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
             return True
         else:
             return False

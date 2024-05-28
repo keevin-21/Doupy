@@ -1,5 +1,4 @@
 import pygame
-from pygame.locals import *
 from constantes import leerSpriteSheet, SPRITE_JABON
 
 pygame.init()
@@ -9,14 +8,14 @@ class Jabon(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.usandoJabon = leerSpriteSheet(0, 5, SPRITE_JABON, 64, 64)
         self.indexFrame = 0
-        self.imagen = self.usandoJabon[self.indexFrame]
-        self.imagen = pygame.transform.scale(self.imagen, (32 * 2, 32 * 2))
+        self.image = self.usandoJabon[self.indexFrame]
+        self.image = pygame.transform.scale(self.image, (32 * 2, 32 * 2))
         self.suelto = False
         self.usando = False
         self.desaparecer = pygame.USEREVENT + 3
         pygame.time.set_timer(self.desaparecer, 0)  # Temporizador inactivo inicialmente
         self.x, self.y = mousePos
-        self.rect = self.imagen.get_rect()
+        self.rect = self.image.get_rect()
         self.rect.topleft = self.x - 32, self.y
 
     def update(self):
@@ -25,7 +24,7 @@ class Jabon(pygame.sprite.Sprite):
                 self.rect.x, self.rect.y = pygame.mouse.get_pos()
                 self.rect.x -= 32
                 if self.usando:
-                    self.imagen = self.usandoJabon[int(self.indexFrame)]
+                    self.image = self.usandoJabon[int(self.indexFrame)]
                     self.indexFrame += 0.1
                     if self.indexFrame >= len(self.usandoJabon):
                         self.indexFrame = 0
@@ -35,4 +34,4 @@ class Jabon(pygame.sprite.Sprite):
                 pygame.time.set_timer(self.desaparecer, 100)
                 self.suelto = True
 
-        self.imagen = pygame.transform.scale(self.imagen, (64 + 32, 64 + 32))
+        self.image = pygame.transform.scale(self.image, (64 + 32, 64 + 32))

@@ -69,6 +69,9 @@ try:
 
     # Provisional
     SPRITE_LINK = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, "link_sprites.png"))
+
+    #Fuente
+    FUENTE = pygame.font.SysFont("Arial", 40, True, True)
 except pygame.error as e:
     print(f"Error al cargar las imágenes: {e}")
     pygame.quit()

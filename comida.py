@@ -1,5 +1,4 @@
 import pygame
-from pygame.locals import *
 from constantes import leerSpriteSheet, SPRITE_COMIDA
 
 pygame.init()
@@ -10,7 +9,7 @@ class Comida(pygame.sprite.Sprite):
         self.comidaEstatica = SPRITE_COMIDA.subsurface((0, 0), (32, 32))
         self.siendoComida = leerSpriteSheet(0, 5, SPRITE_COMIDA, 32, 32)
         self.indexFrame = 0
-        self.imagen = pygame.transform.scale(self.comidaEstatica, (32 * 2, 32 * 2))
+        self.image = pygame.transform.scale(self.comidaEstatica, (32 * 2, 32 * 2))
         self.empezarComida = False
         self.caido = False
         self.comidaTirada = False
@@ -20,7 +19,7 @@ class Comida(pygame.sprite.Sprite):
         self.desaparecer = pygame.USEREVENT + 4
         pygame.time.set_timer(self.desaparecer, 0)  # temporizador inactivo
         self.x, self.y = mousePos
-        self.rect = self.imagen.get_rect()
+        self.rect = self.image.get_rect()
         self.rect.topleft = self.x, self.y
 
     def siendoComido(self):
@@ -31,7 +30,7 @@ class Comida(pygame.sprite.Sprite):
 
     def update(self):
         if self.empezarComida and not self.fueComido:
-            self.imagen = self.siendoComida[int(self.indexFrame)]
+            self.image = self.siendoComida[int(self.indexFrame)]
             self.indexFrame += 0.005
             if self.indexFrame >= len(self.siendoComida):
                 self.indexFrame = 5
@@ -48,7 +47,7 @@ class Comida(pygame.sprite.Sprite):
                 self.caer()
                 self.suelto = True
 
-        self.imagen = pygame.transform.scale(self.imagen, (32 * 2, 32 * 2))
+        self.image = pygame.transform.scale(self.image, (32 * 2, 32 * 2))
 
     def handle_caida(self):
         suelo = self.get_suelo_position(self.sueltoPosicionY)
@@ -67,4 +66,3 @@ class Comida(pygame.sprite.Sprite):
             return 330
         else:
             return 290
-        
