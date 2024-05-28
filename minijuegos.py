@@ -1,6 +1,7 @@
 import pygame
 import sys
 from pong import pong_game
+from minigame_dragons import minigame_dragons
 # from game2 import game_2
 
 # Inicialización de Pygame
@@ -69,8 +70,8 @@ def main():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if button_1.collidepoint(event.pos):
                     pong_game()
-                # elif button_2.collidepoint(event.pos):
-                #     game_2()
+                elif button_2.collidepoint(event.pos):
+                    minigame_dragons()
 
 if __name__ == "__main__":
     main()
