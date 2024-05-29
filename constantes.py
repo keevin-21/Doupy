@@ -39,8 +39,8 @@ def recuperarProgreso(hambre, limpieza):
 DIRECTORIO_PRINCIPAL = os.path.dirname(__file__)
 
 # Pantalla
-ANCHO_PANTALLA = 800
-ALTO_PANTALLA = 600
+ANCHO_PANTALLA = 640
+ALTO_PANTALLA = 480
 POSICION_RELOJ = (500, 10)
 RELOJ_JUEGO = pygame.time.Clock()
 

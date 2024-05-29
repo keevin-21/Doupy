@@ -7,14 +7,15 @@ pygame.init()
 class BotonComida(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.imgBoton = SPRITE_BOTON_COMIDA.subsurface((0, 0), (64, 64))
+        self.imagenBoton = SPRITE_BOTON_COMIDA.subsurface((0, 0), (64, 64))
         self.botonClicado = False
-        self.imagen = self.imgBoton
-        self.imagen = pygame.transform.scale(self.imagen, (64 + 32, 64 + 32))
+        self.image = self.imagenBoton
+        self.image = pygame.transform.scale(self.image, (64 + 32, 64 + 32))
         self.x = 112
         self.y = 374
-        self.rect = self.imagen.get_rect()
+        self.rect = self.image.get_rect()
         self.rect.topleft = self.x, self.y
 
-    def update(self):
-        self.imagen = pygame.transform.scale(self.imagen, (64 + 32, 64 + 32))
+    def actualizar(self):
+        self.image = pygame.transform.scale(self.image, (64 + 32, 64 + 32))
+

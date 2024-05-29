@@ -14,7 +14,7 @@ from constantes import recuperarProgreso, salvarProgreso, leerSpriteSheet, grupo
 
 pygame.init()
 
-pygame.mixer.music.set_volume(0.3)
+pygame.mixer.music.set_volume(0.1)
 pygame.mixer.music.load("soundtrack/BGM.mp3")
 pygame.mixer.music.play(-1)
 
