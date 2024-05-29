@@ -1,5 +1,6 @@
 import pygame
 import math
+from random import randint, random
 
 # Inicialización de Pygame
 def minigame_dragons(): 
@@ -111,10 +112,10 @@ def minigame_dragons():
 
         screen.blit(dungeon_image, (0, 0))
 
-        if game_over:
+        if lives <= 0 or game_over:
             text = font.render("GAME OVER", True, FONT_COLOR)
             screen.blit(text, text.get_rect(center=CENTER))
-        elif game_complete:
+        elif eggs_collected >= EGG_TARGET or game_complete:
             text = font.render("GANASTE!", True, FONT_COLOR)
             screen.blit(text, text.get_rect(center=CENTER))
         else:
@@ -226,13 +227,16 @@ def minigame_dragons():
 
             update_egg(lair)
 
+
+## FUNCION PARA HACER MAS RANDOM LOS DRAGONES
     def update_sleeping_dragon(lair):
         if lair["sleep_counter"] >= lair["sleep_length"]:
-            lair["dragon"]["image"] = dragon_awake_image
-            lair["sleep_counter"] = 0
+            if random.random() < 0.5:
+                lair["dragon"]["image"] = dragon_awake_image
+                lair["sleep_counter"] = 0
         else:
             lair["sleep_counter"] += 1
-
+            
     def update_awake_dragon(lair):
         if lair["wake_counter"] >= DRAGON_WAKE_TIME:
             lair["dragon"]["image"] = dragon_asleep_image
@@ -268,4 +272,5 @@ def minigame_dragons():
         pygame.display.flip()
 
     pygame.quit()
-    
+
+minigame_dragons()
