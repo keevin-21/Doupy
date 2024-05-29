@@ -1,13 +1,15 @@
 import pygame
-from constantes import leerSpriteSheet, SPRITE_COMIDA
+from pygame.locals import *
+from constantes import leer_sprites, SPRITE_COMIDA
 
 pygame.init()
 
 class Comida(pygame.sprite.Sprite):
+
     def __init__(self, mousePos):
         pygame.sprite.Sprite.__init__(self)
         self.comidaEstatica = SPRITE_COMIDA.subsurface((0, 0), (32, 32))
-        self.siendoComida = leerSpriteSheet(0, 5, SPRITE_COMIDA, 32, 32)
+        self.siendoComida = leer_sprites(0, 5, SPRITE_COMIDA, 32, 32)
         self.indexFrame = 0
         self.image = pygame.transform.scale(self.comidaEstatica, (32 * 2, 32 * 2))
         self.empezarComida = False
@@ -17,7 +19,7 @@ class Comida(pygame.sprite.Sprite):
         self.suelto = False
         self.sueltoPosicionY = None
         self.desaparecer = pygame.USEREVENT + 4
-        pygame.time.set_timer(self.desaparecer, 0)  # temporizador inactivo
+        pygame.time.set_timer(self.desaparecer, 0)
         self.x, self.y = mousePos
         self.rect = self.image.get_rect()
         self.rect.topleft = self.x, self.y
@@ -37,7 +39,7 @@ class Comida(pygame.sprite.Sprite):
                 self.fueComido = True
 
         if self.caido and not self.fueComido:
-            self.handle_caida()
+            self.handleCaida()
 
         if not self.suelto:
             if pygame.mouse.get_pressed()[0]:
@@ -49,17 +51,17 @@ class Comida(pygame.sprite.Sprite):
 
         self.image = pygame.transform.scale(self.image, (32 * 2, 32 * 2))
 
-    def handle_caida(self):
-        suelo = self.get_suelo_position(self.sueltoPosicionY)
+    def handleCaida(self):
+        suelo = self.getSueloPosition(self.sueltoPosicionY)
         self.rect.y += 5
         if self.rect.y >= suelo:
             self.comidaTirada = True
             self.caido = False
-            pygame.time.set_timer(self.desaparecer, 2000)  # desaparecer en 2 segundos
+            pygame.time.set_timer(self.desaparecer, 2000)
 
-    def get_suelo_position(self, sueltoPosicionY):
+    def getSueloPosition(self, sueltoPosicionY):
         if sueltoPosicionY >= 300:
-            return 400  # ajuste para un valor más realista
+            return 400
         elif sueltoPosicionY >= 200:
             return 380
         elif sueltoPosicionY >= 100:

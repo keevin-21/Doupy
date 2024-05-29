@@ -1,13 +1,14 @@
 import pygame
 import os
+import pickle
 
 # Inicialización de Pygame
 pygame.init()
 
 # Función para leer sprites desde una hoja de sprites
-def leerSpriteSheet(iniciarCortar, finalCortar, spriteSheet, anchoSprite, altoSprite):
+def leerSpriteSheet(primerNumero, segundoNumero, spriteSheet, anchoSprite, altoSprite):
     imagenes = []
-    for i in range(iniciarCortar, finalCortar):
+    for i in range(primerNumero, segundoNumero):
         imagen = spriteSheet.subsurface((i * anchoSprite, 0), (anchoSprite, altoSprite))
         imagenes.append(imagen)
     return imagenes
@@ -19,60 +20,48 @@ def grupoSprites(*sprites):
         grupo.add(sprite)
     return grupo
 
+# Función para guardar el progreso
+def salvarProgreso(fome, limpieza):
+    mascota = (fome, limpieza)
+    with open('guardar_mascota.dat', 'wb') as archivo:
+        pickle.dump(mascota, archivo)
+
+# Función para recuperar el progreso
+def recuperarProgreso():
+    try:
+        with open('guardar_mascota.dat', 'rb') as archivo:
+            mascota = pickle.load(archivo)
+    except FileNotFoundError:
+        mascota = (100, 100)
+    return mascota
+
 # Directorio principal
 DIRECTORIO_PRINCIPAL = os.path.dirname(__file__)
-print(f"Directorio principal: {DIRECTORIO_PRINCIPAL}")
 
 # Pantalla
 ANCHO_PANTALLA = 800
 ALTO_PANTALLA = 600
-CENTRO_ANCHO = ANCHO_PANTALLA / 2
-CENTRO_ALTO = ALTO_PANTALLA / 2
-
-# Reloj
+POSICION_RELOJ = (500, 10)
 RELOJ_JUEGO = pygame.time.Clock()
 
 # Colores
 NEGRO = (0, 0, 0)
-BLANCO = (255, 255, 255)
 
 # Directorios
-DIRECTORIO_IMAGENES = os.path.join(DIRECTORIO_PRINCIPAL, "sprites")
-print("asdad", DIRECTORIO_IMAGENES)
-DIRECTORIO_MUSICA = os.path.join(DIRECTORIO_PRINCIPAL, "soundtrack")
+DIRECTORIO_IMAGENES = os.path.join(DIRECTORIO_PRINCIPAL, 'sprites')
+DIRECTORIO_SONIDO = os.path.join(DIRECTORIO_PRINCIPAL, 'trilha sonora')
 
-try:
-    BACKGROUND_PATH = os.path.join(DIRECTORIO_IMAGENES, "background.png")
-    print(f"Ruta de la imagen de fondo: {BACKGROUND_PATH}")
-    BACKGROUND = pygame.image.load(BACKGROUND_PATH)
-except FileNotFoundError as e:
-    print(f"Error al cargar la imagen: {e}")
-    pygame.quit()
-    exit()
+# Cargar imágenes
+SPRITE_SHEET = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, 'link_sprites.png'))
+SPRITE_COMIDA = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, 'apple_sprites.png'))
+SPRITE_BOTON_COMIDA = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, 'apple_button.png'))
+SPRITE_BOTON_JABON = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, 'soap_button.png'))
+SPRITE_JABON = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, 'soap_sprites.png'))
+SPRITE_MOUSE = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, 'mouse_sprites.png'))
+SPRITE_ACARICIAR = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, 'sprites_pet.png'))
+SPRITE_COMER = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, 'sprites_eat.png'))
+SPRITE_BARRA = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, 'bar.png'))
+BACKGROUND = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, 'background.png'))
 
-# Carga de Sprites
-try:
-    BACKGROUND = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, "background.png"))
-
-    SPRITE_COMIDA = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, "apple_sprites.png"))
-    SPRITE_BOTON_COMIDA = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, "apple_button.png"))
-
-    SPRITE_JABON = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, "soap_sprites.png"))
-    SPRITE_BOTON_JABON = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, "soap_button.png"))
-
-    SPRITE_BARRA = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, "bar.png"))
-
-    SPRITE_MOUSE = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, "mouse_sprites.png"))
-
-    SPRITE_COMER = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, "sprites_eat.png"))
-    SPRITE_ACARICIAR = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, "sprites_pet.png"))
-
-    # Provisional
-    SPRITE_LINK = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, "link_sprites.png"))
-
-    #Fuente
-    FUENTE = pygame.font.SysFont("Arial", 40, True, True)
-except pygame.error as e:
-    print(f"Error al cargar las imágenes: {e}")
-    pygame.quit()
-    exit()
+# Fuente
+FUENTE_CS = pygame.font.SysFont("Arial", 40, True, True)

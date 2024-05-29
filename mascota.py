@@ -1,66 +1,167 @@
 import pygame
-from constantes import leerSpriteSheet, SPRITE_LINK, SPRITE_COMER, SPRITE_ACARICIAR, CENTRO_ALTO, CENTRO_ANCHO
+from pygame.locals import *
+from constantes import leer_hoja_sprites, HOJA_DE_SPRITES, SPRITE_ACARICIAR, SPRITE_COMER
 
-class Doupy(pygame.sprite.Sprite):
+pygame.init()
+
+class Mascota(pygame.sprite.Sprite):
+
     def __init__(self):
-        super().__init__()
-        self.imagenDoupy = leerSpriteSheet(0, 3, SPRITE_LINK, 120, 130)
-        self.imagenComer = leerSpriteSheet(0, 3, SPRITE_COMER, 120, 130)
-        self.imagenAcariciar = leerSpriteSheet(0, 3, SPRITE_ACARICIAR, 120, 130)
+        pygame.sprite.Sprite.__init__(self)
+        # Configurando los sprites para cada dirección
+        self.imgEstatico = leer_hoja_sprites(0, 3, HOJA_DE_SPRITES, 120, 130)
+        self.imgAbajo = leer_hoja_sprites(3, 13, HOJA_DE_SPRITES, 120, 130)
+        self.imgIzquierda = leer_hoja_sprites(13, 23, HOJA_DE_SPRITES, 120, 130)
+        self.imgArriba = leer_hoja_sprites(23, 33, HOJA_DE_SPRITES, 120, 130)
+        self.imgDerecha = leer_hoja_sprites(33, 43, HOJA_DE_SPRITES, 120, 130)
+        self.imgAcariciar = leer_hoja_sprites(0, 3, SPRITE_ACARICIAR, 120, 130)
+        self.imgComer = leer_hoja_sprites(0, 3, SPRITE_COMER, 120, 130)
+        self.accion = 0  # 0: estático 1: abajo 2: izquierda 3: arriba 4: derecha 5: acariciar, 6: comer
+        self.indiceFrame = 0
+        self.imagen = self.imgEstatico[self.indiceFrame]
+        self.imagen = pygame.transform.scale(self.imagen, (120, 130))
+        self.mascara = pygame.mask.from_surface(self.imagen)
 
-        self.accion = 0 # 0 Doupy, 1 Comer, 2 Acariciar
-        self.indexFrame = 0
-        self.image = self.imagenDoupy[self.indexFrame]  # Correcto uso de 'image'
-        self.image = pygame.transform.scale(self.image, (120, 130))
-        self.mascara = pygame.mask.from_surface(self.image)
-        
-        # evento de la animacion del sprite
-        self.timerAnimacion = pygame.USEREVENT + 1
-        pygame.time.set_timer(self.timerAnimacion, 3000)
+        # Configurando la variable de control de movimiento
+        self.temporizadorAndar = pygame.USEREVENT + 1
+        pygame.time.set_timer(self.temporizadorAndar, 5000)
 
-        # configurar la posicion inicial del sprite
-        self.pocisionX = CENTRO_ANCHO
-        self.posicionY = CENTRO_ALTO
-        self.rect = self.image.get_rect()
-        self.rect.topleft = self.pocisionX, self.posicionY
+        # Configurando el rect del sprite y generando la posición inicial
+        self.nuevoX = 300
+        self.nuevoY = 300
+        self.x = 300
+        self.y = 300
+        self.rect = self.imagen.get_rect()
+        self.rect.topleft = self.x, self.y
 
-        # variables de control
-        self.comer = False
-        self.acariciar = False
+        # Variables de control
+        self.acariciado = False
+        self.comiendo = False
 
-        # valores en las variables de estado
-        self.alimento = 200.00
-        self.limpio = 200.00
-        self.despierto = 200.00
-        self.felicidad = (self.alimento + self.limpio + self.despierto) // 3
-        
-        self.decrementarAlimentacion = pygame.USEREVENT + 2
-        pygame.time.set_timer(self.decrementarAlimentacion, 5000)
+        # Parámetros de vida
+        self.hambre = 150.00
+        self.limpieza = 150.00
+        self.felicidad = (self.hambre + self.limpieza) // 2
 
-        self.decrementarLimpieza = pygame.USEREVENT + 3
-        pygame.time.set_timer(self.decrementarLimpieza, 5000)
+        self.bajarHambre = pygame.USEREVENT + 4
+        pygame.time.set_timer(self.bajarHambre, 5000)
 
-    # actualizar la animacion del sprite
+        self.bajarLimpieza = pygame.USEREVENT + 5
+        pygame.time.set_timer(self.bajarLimpieza, 5000)
+
     def update(self):
-        if self.accion == 0:
-            self.image = self.imagenDoupy[self.indexFrame]
-        elif self.accion == 1:
-            self.image = self.imagenComer[self.indexFrame]
-        elif self.accion == 2:
-            self.image = self.imagenAcariciar[self.indexFrame]
+        if self.nuevoX != self.rect.x:
+            if self.nuevoX > self.rect.x:
+                self.actualizarAccion(4)
+                if (self.rect.x + 2) > self.nuevoX:
+                    self.nuevoX = self.rect.x
+                if self.nuevoX == self.rect.x and self.nuevoY != self.rect.y:
+                    if self.nuevoY > self.rect.y:
+                        self.actualizarAccion(1)
+                    elif self.nuevoY < self.rect.y:
+                        self.actualizarAccion(3)
 
-        self.image = pygame.transform.scale(self.image, (120, 130))
-        self.rect = self.image.get_rect()
-        self.rect.topleft = self.pocisionX, self.posicionY
-        self.felicidad = (self.alimento + self.limpio + self.despierto) // 3
-    
-    def updateAction(self, nuevaAccion):
-        self.accion = nuevaAccion
-        self.indexFrame = 0
-    
-    # detecta si el mouse esta colisionando con el sprite
-    def colisionMouse(self):
-        if self.rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
-            return True
-        else:
-            return False
+            if self.nuevoX < self.rect.x:
+                self.actualizarAccion(2)
+                if (self.rect.x - 2) < self.nuevoX:
+                    self.nuevoX = self.rect.x
+                if self.nuevoX == self.rect.x and self.nuevoY != self.rect.y:
+                    if self.nuevoY > self.rect.y:
+                        self.actualizarAccion(1)
+                    elif self.nuevoY < self.rect.y:
+                        self.actualizarAccion(3)
+
+            if self.nuevoY < self.rect.y and self.nuevoX < self.rect.x + 240 and self.nuevoX > self.rect.x - 120:
+                self.actualizarAccion(3)
+                if (self.rect.y - 2) < self.nuevoY:
+                    self.nuevoY = self.rect.y
+                if self.nuevoY == self.rect.y and self.nuevoX != self.rect.x:
+                    if self.nuevoX > self.rect.x:
+                        self.actualizarAccion(4)
+                    elif self.nuevoX < self.rect.x:
+                        self.actualizarAccion(2)
+
+            if self.nuevoY > self.rect.y and self.nuevoX < self.rect.x + 240 and self.nuevoX > self.rect.x - 120:
+                self.actualizarAccion(1)
+                if (self.rect.y + 2) < self.nuevoY:
+                    self.nuevoY = self.rect.y
+                if self.nuevoY == self.rect.y and self.nuevoX != self.rect.x:
+                    if self.nuevoX > self.rect.x:
+                        self.actualizarAccion(4)
+                    elif self.nuevoX < self.rect.x:
+                        self.actualizarAccion(2)
+
+        if self.nuevoX == self.rect.x and self.nuevoY == self.rect.y and not self.colisionRaton():
+            if self.comiendo:
+                self.actualizarAccion(6)
+            else:
+                self.actualizarAccion(0)
+
+        if self.accion == 0:
+            self.imagen = self.imgEstatico[int(self.indiceFrame)]
+            self.indiceFrame += 0.05
+            if self.indiceFrame >= len(self.imgEstatico):
+                self.indiceFrame = 0
+
+        elif self.accion == 1:
+            self.imagen = self.imgAbajo[int(self.indiceFrame)]
+            self.indiceFrame += 0.2
+            self.rect.y += 2
+            if self.indiceFrame >= len(self.imgAbajo):
+                self.indiceFrame = 0
+                self.actualizarAccion(0)
+
+        elif self.accion == 2:
+            self.imagen = self.imgIzquierda[int(self.indiceFrame)]
+            self.indiceFrame += 0.2
+            self.rect.x -= 2
+            if self.nuevoY < self.rect.y:
+                self.rect.y -= 2
+            if self.nuevoY > self.rect.y:
+                self.rect.y += 2
+            if self.indiceFrame >= len(self.imgIzquierda):
+                self.indiceFrame = 0
+                self.actualizarAccion(0)
+
+        elif self.accion == 3:
+            self.imagen = self.imgArriba[int(self.indiceFrame)]
+            self.indiceFrame += 0.5
+            self.rect.y -= 2
+            if self.indiceFrame >= len(self.imgArriba):
+                self.indiceFrame = 0
+                self.actualizarAccion(0)
+
+        elif self.accion == 4:
+            self.imagen = self.imgDerecha[int(self.indiceFrame)]
+            self.indiceFrame += 0.2
+            self.rect.x += 2
+            if self.nuevoY < self.rect.y:
+                self.rect.y -= 2
+            if self.nuevoY > self.rect.y:
+                self.rect.y += 2
+            if self.indiceFrame >= len(self.imgDerecha):
+                self.indiceFrame = 0
+
+        elif self.accion == 5:
+            self.imagen = self.imgAcariciar[int(self.indiceFrame)]
+            self.indiceFrame += 0.05
+            if self.indiceFrame >= len(self.imgAcariciar):
+                self.indiceFrame = 0
+                self.actualizarAccion(0)
+
+        elif self.accion == 6:
+            self.imagen = self.imgComer[int(self.indiceFrame)]
+            self.indiceFrame += 0.05
+            if self.indiceFrame >= len(self.imgComer):
+                self.indiceFrame = 0
+
+        self.imagen = pygame.transform.scale(self.imagen, (120, 130))
+        self.felicidad = (self.hambre + self.limpieza) // 2
+
+    def actualizarAccion(self, nuevaAccion):
+        if nuevaAccion != self.accion:
+            self.accion = nuevaAccion
+            self.indiceFrame = 0
+
+    def colisionRaton(self):
+        return self.rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]
