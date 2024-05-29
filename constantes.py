@@ -9,8 +9,8 @@ pygame.init()
 def leerSpriteSheet(primerNumero, segundoNumero, spriteSheet, anchoSprite, altoSprite):
     imagenes = []
     for i in range(primerNumero, segundoNumero):
-        imagen = spriteSheet.subsurface((i * anchoSprite, 0), (anchoSprite, altoSprite))
-        imagenes.append(imagen)
+        image = spriteSheet.subsurface((i * anchoSprite, 0), (anchoSprite, altoSprite))
+        imagenes.append(image)
     return imagenes
 
 # Función para agrupar sprites
@@ -31,6 +31,7 @@ def recuperarProgreso(hambre, limpieza):
     try:
         with open('guardar_mascota.dat', 'rb') as archivo:
             mascota = pickle.load(archivo)
+            archivo.close()
     except FileNotFoundError:
         mascota = (100, 100)
     return mascota
