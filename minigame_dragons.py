@@ -94,7 +94,7 @@ hard_lair = {
     "wake_counter": 0
 }
 
-lairs = [easy_lair, medium_lair, hard_lair]
+    lairs = [easy_lair, medium_lair, hard_lair]
 
 link = {"image": link_images["parado"], "pos": list(HERO_START), "rect": pygame.Rect(HERO_START, (link_images["parado"].get_width(), link_images["parado"].get_height()))}
 
