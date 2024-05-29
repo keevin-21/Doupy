@@ -1,23 +1,19 @@
 import pygame
-# import pgzrun
-# import pgzero
 import sys
 from pong import pong_game
 from minigame_dragons import minigame_dragons
-# from game2 import game_2
 
 # Inicialización de Pygame
 pygame.init()
 
 # Configuración de la pantalla
 screen = pygame.display.set_mode((800, 600))
-pygame.display.set_caption("Pantalla de Inicio")
+pygame.display.set_caption("Minijuegos")
+
+fondo = pygame.image.load("images/fondo-minijuegos.png")
 
 # Definir colores
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-BLUE = (0, 0, 255)
-RED = (255, 0, 0)
+GOLD = (255, 223, 0)
 
 # Definir rectángulos para los botones
 button_1 = pygame.Rect(150, 200, 200, 100)
@@ -30,9 +26,9 @@ def draw_text(text, font, color, surface, x, y):
     surface.blit(textobj, textrect)
 
 def draw_start_screen():
-    screen.fill(WHITE)
-    pygame.draw.rect(screen, BLUE, button_1)
-    pygame.draw.rect(screen, RED, button_2)
+    screen.blit(fondo, (0, 0))
+    pygame.draw.rect(screen,GOLD , button_1)
+    pygame.draw.rect(screen, GOLD, button_2)
     
     # Ajustar el tamaño de la fuente para que el texto se ajuste dentro de los botones
     font_size = 36
@@ -46,7 +42,7 @@ def draw_start_screen():
         font_size -= 1
         font = pygame.font.Font(None, font_size)
     
-    draw_text(text1, font, WHITE, screen, button_1.centerx, button_1.centery)
+    draw_text(text1, font, (0, 0, 0), screen, button_1.centerx, button_1.centery)
 
     # Resetear el tamaño de la fuente para el segundo botón
     font_size = 36
@@ -56,7 +52,7 @@ def draw_start_screen():
         font_size -= 1
         font = pygame.font.Font(None, font_size)
 
-    draw_text(text2, font, WHITE, screen, button_2.centerx, button_2.centery)
+    draw_text(text2, font, (0, 0, 0), screen, button_2.centerx, button_2.centery)
 
     pygame.display.flip()
 
@@ -67,13 +63,17 @@ def main():
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+                running = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if button_1.collidepoint(event.pos):
                     pong_game()
+                    draw_start_screen()
                 elif button_2.collidepoint(event.pos):
                     minigame_dragons()
+                    draw_start_screen()
+
+    pygame.quit()
+    sys.exit()
 
 if __name__ == "__main__":
     main()

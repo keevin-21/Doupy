@@ -4,6 +4,9 @@ import random
 def pong_game():
     pygame.init()
 
+    pygame.display.set_caption("Link Pong")
+
+
     black = (0, 0, 0)
     white = (255, 255, 255)
     red = (255, 0, 0)
@@ -12,6 +15,8 @@ def pong_game():
     size = (WIDTH, HEIGHT)
     player_width = 15
     player_height = 90
+
+
 
     screen = pygame.display.set_mode(size)
     clock = pygame.time.Clock()
@@ -133,6 +138,5 @@ def pong_game():
         pygame.display.flip()
         clock.tick(200)
 
-    pygame.quit()
+    # pygame.quit()
 
-pong_game()
