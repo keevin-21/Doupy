@@ -16,8 +16,6 @@ def pong_game():
     player_width = 15
     player_height = 90
 
-
-
     screen = pygame.display.set_mode(size)
     clock = pygame.time.Clock()
 
@@ -35,8 +33,8 @@ def pong_game():
     # coordenadas de la pelota
     pelota_x = WIDTH / 2
     pelota_y = HEIGHT / 2
-    pelota_speed_x = 3 * random.choice((-1, 1))
-    pelota_speed_y = 3 * random.choice((-1, 1))
+    pelota_speed_x = 9 * random.choice((-1, 1))
+    pelota_speed_y = 9 * random.choice((-1, 1))
 
     score_player = 0
     score_machine = 0
@@ -51,9 +49,9 @@ def pong_game():
             if event.type == pygame.KEYDOWN:
                 # jugador 1
                 if event.key == pygame.K_w:
-                    player1_y_speed = -5
+                    player1_y_speed = -9
                 if event.key == pygame.K_s:
-                    player1_y_speed = 5
+                    player1_y_speed = 9
                     
 
             if event.type == pygame.KEYUP:
@@ -88,14 +86,14 @@ def pong_game():
             score_player += 1
             pelota_x = WIDTH / 2
             pelota_y = HEIGHT / 2
-            pelota_speed_x = 3 * random.choice((-1, 1))
-            pelota_speed_y = 3 * random.choice((-1, 1))
+            pelota_speed_x = 9 * random.choice((-1, 1))
+            pelota_speed_y = 9 * random.choice((-1, 1))
         elif pelota_x < 0:
             score_machine += 1
             pelota_x = WIDTH / 2
             pelota_y = HEIGHT / 2
-            pelota_speed_x = 3 * random.choice((-1, 1))
-            pelota_speed_y = 3 * random.choice((-1, 1))
+            pelota_speed_x = 9 * random.choice((-1, 1))
+            pelota_speed_y = 9 * random.choice((-1, 1))
 
         # modificar coordenadas para dar movimiento a los jugadores/pelota
         player1_y_coor += player1_y_speed
@@ -127,16 +125,18 @@ def pong_game():
                 screen.blit(win_text, (WIDTH / 2 - win_text.get_width() / 2, HEIGHT / 2))
                 pygame.display.flip()
                 pygame.time.delay(3000)  
-                pygame.quit()  
+                game_over = True
+                # pygame.quit()  
             elif score_machine == 5:
                 lose_text = font.render("Perdiste!", True, white)
                 screen.blit(lose_text, (WIDTH / 2 - lose_text.get_width() / 2, HEIGHT / 2))
                 pygame.display.flip()
-                pygame.time.delay(3000)  
-                pygame.quit()  
+                pygame.time.delay(3000) 
+                game_over = True 
+                # pygame.quit()  
         draw_score()
         pygame.display.flip()
-        clock.tick(200)
+        clock.tick(60)
 
     # pygame.quit()
 

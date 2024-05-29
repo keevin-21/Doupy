@@ -14,11 +14,14 @@ fondo = pygame.image.load("images/fondo-minijuegos.png")
 
 # Definir colores
 GOLD = (255, 223, 0)
+GRIS_CLARO = (200, 200, 200)
 
 # Definir rectángulos para los botones
 button_1 = pygame.Rect(150, 200, 200, 100)
 button_2 = pygame.Rect(450, 200, 200, 100)
+button_minijuegos = pygame.Rect(550, 480, 120, 80)
 
+# Función para dibujar texto en la pantalla 
 def draw_text(text, font, color, surface, x, y):
     textobj = font.render(text, True, color)
     textrect = textobj.get_rect()
@@ -29,22 +32,24 @@ def draw_start_screen():
     screen.blit(fondo, (0, 0))
     pygame.draw.rect(screen,GOLD , button_1)
     pygame.draw.rect(screen, GOLD, button_2)
+    pygame.draw.rect(screen, GOLD, button_minijuegos)
     
-    # Ajustar el tamaño de la fuente para que el texto se ajuste dentro de los botones
+    # Ajusta el tamaño de la fuente para que el texto se ajuste dentro de los botones
     font_size = 36
     font = pygame.font.Font(None, font_size)
 
     text1 = 'ping-pong 2players'
     text2 = 'sleeping dragons'
+    text3 = 'minijuegos'
 
-    # Reducir el tamaño de la fuente si el texto es más ancho que el botón
+    # Reduce el tamaño de la fuente si el texto es más ancho que el botón
     while font.size(text1)[0] > button_1.width - 10:  # Un poco de margen
         font_size -= 1
         font = pygame.font.Font(None, font_size)
     
     draw_text(text1, font, (0, 0, 0), screen, button_1.centerx, button_1.centery)
 
-    # Resetear el tamaño de la fuente para el segundo botón
+    # Resetea el tamaño de la fuente para el segundo botón
     font_size = 36
     font = pygame.font.Font(None, font_size)
 
@@ -53,6 +58,12 @@ def draw_start_screen():
         font = pygame.font.Font(None, font_size)
 
     draw_text(text2, font, (0, 0, 0), screen, button_2.centerx, button_2.centery)
+
+    while font.size(text2)[0] > button_minijuegos.width - 10:  # Un poco de margen
+        font_size -= 1
+        font = pygame.font.Font(None, font_size)
+
+    draw_text(text3, font, (0, 0, 0), screen, button_minijuegos.centerx, button_minijuegos.centery)
 
     pygame.display.flip()
 
