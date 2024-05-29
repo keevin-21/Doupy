@@ -42,7 +42,7 @@ DIRECTORIO_PRINCIPAL = os.path.dirname(__file__)
 # Pantalla
 ANCHO_PANTALLA = 640
 ALTO_PANTALLA = 480
-POSICION_RELOJ = (500, 10)
+POSICION_RELOJ = (270, 10)
 RELOJ_JUEGO = pygame.time.Clock()
 
 # Colores

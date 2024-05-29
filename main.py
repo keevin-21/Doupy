@@ -12,9 +12,8 @@ from jabon import Jabon
 from mouse import Mouse
 from constantes import recuperarProgreso, salvarProgreso, leerSpriteSheet, grupoSprites, BACKGROUND, ALTO_PANTALLA, ANCHO_PANTALLA, RELOJ_JUEGO, NEGRO, FUENTE_CS, POSICION_RELOJ
 
-pygame.init()
-
-pygame.mixer.music.set_volume(0.1)
+pygame.init() 
+pygame.mixer.music.set_volume(0)
 pygame.mixer.music.load("soundtrack/BGM.mp3")
 pygame.mixer.music.play(-1)
 
@@ -27,8 +26,8 @@ mascota.hambre, mascota.limpieza = recuperarProgreso(mascota.hambre, mascota.lim
 botonComida = BotonComida()
 botonJabon = BotonJabon()
 barraComida = Barras(mascota.hambre, 30, 20)
-barraLimpieza = Barras(mascota.limpieza, 30, 45)
-barraFelicidad = Barras(mascota.felicidad, 30, 70)
+barraLimpieza = Barras(mascota.limpieza, 30, 50)
+barraFelicidad = Barras(mascota.felicidad, 30, 80)
 mouse = Mouse(pygame.mouse.get_pos())
 todosLosSprites = grupoSprites(botonJabon, mascota, botonComida, barraComida, barraFelicidad, barraLimpieza, mouse)
 pararComida = False
@@ -50,7 +49,6 @@ while True:
     pygame.mouse.set_visible(False)
 
     for event in pygame.event.get():
-
         if event.type == QUIT:
             salvarProgreso(mascota.hambre, mascota.limpieza)
             pygame.quit()
@@ -79,7 +77,6 @@ while True:
             comidaExiste = False
             del maca
             pararComida = False
-
 
         if event.type == pygame.USEREVENT + 3:
             pygame.time.set_timer(jabon.desaparecer, 0)
@@ -139,6 +136,7 @@ while True:
                         mascota.hambre = 150
                     else:
                         mascota.hambre += 10
+                        
 
                     barraComida.subirBarra(mascota.hambre)
                     pygame.time.set_timer(maca.desaparecer, 100)
@@ -148,7 +146,7 @@ while True:
 
     if mouseButton == True and mascota.rect.collidepoint(mousePos):
         continuarCaminando = False
-        mascota.actualizarAccion(5) # 0
+        mascota.actualizarAccion(0) # 5
         mascota.nuevoX = mascota.rect.x
         mascota.nuevoY = mascota.rect.y
 

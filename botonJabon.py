@@ -10,7 +10,7 @@ class BotonJabon(pygame.sprite.Sprite):
         self.imagenBoton = SPRITE_BOTON_JABON.subsurface((0, 0), (64, 64))
         self.botonClicado = False
         self.image = self.imagenBoton
-        self.image = pygame.transform.scale(self.image, (64 + 32, 64 + 32))
+        self.image = pygame.transform.scale(self.image, (64, 64))
         self.x = 432
         self.y = 374
         self.rect = self.image.get_rect()

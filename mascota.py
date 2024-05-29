@@ -24,30 +24,28 @@ class Mascota(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (120, 130))
         self.mask = pygame.mask.from_surface(self.image)
         
-        #setando a variave de controle do movimento
         self.temporizadorAndar = pygame.USEREVENT + 1
-        pygame.time.set_timer(self.temporizadorAndar, 5000)
-        #setando o rect da sprite e gerando a posição inicial
-        self.newx = 300
-        self.newy = 300
-        self.x = 300
-        self.y = 300
+        pygame.time.set_timer(self.temporizadorAndar, 300)
+
+        self.newx = 200
+        self.newy = 100
+        self.x = 200
+        self.y = 100
         self.rect = self.image.get_rect()
         self.rect.topleft = self.x, self.y
-        #variaveis de controle
+
         self.afagado = False
         self.comendo = False
 
-        #parametros de vida
         self.hambre = 150.00
         self.limpieza = 150.00
         self.felicidad = (self.hambre + self.limpieza)//2
 
         self.bajarHambre = pygame.USEREVENT + 4
-        pygame.time.set_timer(self.bajarHambre, 5000)
+        pygame.time.set_timer(self.bajarHambre, 300)
 
         self.bajarLimpieza = pygame.USEREVENT + 5
-        pygame.time.set_timer(self.bajarLimpieza, 5000)
+        pygame.time.set_timer(self.bajarLimpieza, 300)
 
     def update(self):
 
@@ -154,14 +152,13 @@ class Mascota(pygame.sprite.Sprite):
                 self.actualizarAccion(0)
 
         elif self.action == 6:
-            # print("entrou 22")
             # pygame.time.set_timer(self.temporizadorAndar, 0)
             self.image = self.img_comer[int(self.indexFrame)]
             self.indexFrame += 0.05
             if self.indexFrame >= len(self.img_comer):
                 self.indexFrame = 0
 
-        self.image = pygame.transform.scale(self.image, (120, 130))
+        self.image = pygame.transform.scale(self.image, (240, 260))
         self.felicidad = (self.hambre + self.limpieza)//2
 
     def actualizarAccion(self, new_action):
