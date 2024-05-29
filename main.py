@@ -9,7 +9,8 @@ from botonComida import BotonComida
 from botonJabon import BotonJabon
 from comida import Comida
 from jabon import Jabon
-from constantes import recuperarProgreso, leerSpriteSheet, BACKGROUND, ALTO_PANTALLA, ANCHO_PANTALLA, RELOJ_JUEGO, NEGRO, FUENTE_CS, POSICION_RELOJ
+from mouse import Mouse
+from constantes import recuperarProgreso, salvarProgreso, leerSpriteSheet, grupoSprites, BACKGROUND, ALTO_PANTALLA, ANCHO_PANTALLA, RELOJ_JUEGO, NEGRO, FUENTE_CS, POSICION_RELOJ
 
 pygame.init()
 
@@ -23,3 +24,138 @@ pygame.display.set_caption("DOUPY")
 
 mascota = Mascota()
 mascota.hambre, mascota.limpieza = recuperarProgreso(mascota.hambre, mascota.limpieza)
+botonComida = BotonComida()
+botonJabon = BotonJabon()
+barraComida = Barras(mascota.hambre, 30, 20)
+barraLimpieza = Barras(mascota.limpieza, 30, 45)
+barraFelicidad = Barras(mascota.felicidad, 30, 70)
+mouse = Mouse(pygame.mouse.get_pos())
+todosLosSprites = grupoSprites(botonJabon, botonComida, barraComida, barraLimpieza, barraFelicidad, mouse, mascota)
+pararComida = False
+comidaExiste = False
+jabonExiste = False
+grupoComida = pygame.sprite.Group()
+grupoJabon = pygame.sprite.Group()
+continuarCaminando = True
+
+while True:
+    horaActual = datetime.now()
+    horaEnTexto = horaActual.strftime("%H:%M")
+    horaFormato = FUENTE_CS.render(horaEnTexto, True, (255, 255, 255))
+
+    mousePos = pygame.mouse.get_pos()
+    mouseButton = pygame.mouse.get_pressed()[0]
+    RELOJ_JUEGO.tick(60)
+    ventana.fill(NEGRO)
+    pygame.mouse.set_visible(False)
+
+    for event in pygame.event.get():
+
+        if event.type == QUIT:
+            salvarProgreso(mascota.hambre, mascota.limpieza)
+            pygame.quit()
+            exit()
+
+        if continuarCaminando == True:
+            if event.type == mascota.temporizadorAndar:
+                mascota.nuevoX = randint(0, 600)
+                mascota.nuevoY = randint(200, 350)
+
+        if event.type == MOUSEBUTTONDOWN:
+            if event.button == 1 and botonComida.rect.collidepoint(mousePos) and pararComida == False:
+                maca = Comida(mousePos)
+                todosLosSprites.add(maca)
+                pararComida = True
+                comidaExiste = True
+
+            if event.button == 1 and botonJabon.rect.collidepoint(mousePos):
+                jabon = Jabon(mousePos)
+                todosLosSprites.add(jabon)
+                del jabon
+                jabonExiste = True
+        
+        if event.type == pygame.USEREVENT + 2:
+            pygame.time.set_timer(maca.desaparecer, 0)
+            todosLosSprites.remove(maca)
+            del maca
+            pararComida = False
+            comidaExiste = False
+
+        if event.type == pygame.USEREVENT + 3:
+            pygame.time.set_timer(jabon.desaparecer, 0)
+            todosLosSprites.remove(jabon)
+            del jabon
+            jabonExiste = False
+
+        if event.type == mascota.bajarHambre:
+            if mascota.hambre <= 0:
+                mascota.hambre = 0
+            else:
+                mascota.hambre -= 10
+            barraComida.bajarBarra(mascota.hambre)
+            barraFelicidad.bajarBarra(mascota.felicidad)
+
+        if event.type == mascota.bajarLimpieza:
+            if mascota.limpieza <= 0:
+                mascota.limpieza = 0
+            else:
+                mascota.limpieza -= 10
+            barraLimpieza.bajarBarra(mascota.limpieza)
+            barraFelicidad.bajarBarra(mascota.felicidad)
+
+        if comidaExiste == True:
+            if maca.comidaTirada == True:
+                continuarCaminando = False
+                mascota.nuevoX = maca.rect.x - 64
+                mascota.nuevoY = maca.rect.y - 64
+                
+                grupoComida.add(maca)
+                colisiones = pygame.sprite.spritecollide(maca, grupoComida, False, pygame.sprite.collide_mask)
+                
+                if colisiones:
+                    mascota.nuevoX = mascota.rect
+                    mascota.nuevoY = mascota.rect
+                    mascota.comiendo = True
+                    maca.siendoComido()
+                if maca.fueComido == True:
+                    if mascota.hambre >= 150:
+                        mascota.hambre = 150
+                    else:
+                        mascota.hambre += 10
+
+                    barraComida.subirBarra(mascota.hambre)
+                    pygame.time.set_timer(maca.desaparecer, 100)
+                    mascota.comiendo = False
+                    continuarCaminando = True
+                    comidaExiste = False
+        
+        if jabonExiste == True:
+            grupoJabon.add(jabon)
+            colisiones2 = pygame.sprite.spritecollide(jabon, grupoJabon, False, pygame.sprite.collide_mask)
+
+            if colisiones2:
+                jabon.usando = True
+                if mascota.limpieza >= 150:
+                    mascota.limpieza = 150
+                else:
+                    mascota.limpieza += 1
+
+                barraLimpieza.subirBarra(mascota.limpieza)
+            else:
+                jabon.usando = False
+
+    if mouseButton == True and mascota.rect.collidepoint(mousePos):
+        continuarCaminando = False
+        mascota.actualizarAccion(5) # 0
+        mascota.nuevoX = mascota.rect.x
+        mascota.nuevoY = mascota.rect.y
+
+    if mascota.accion == 0:
+        continuarCaminando = True
+
+    ventana.blit(BACKGROUND, (0, 0))
+    ventana.blit(horaFormato, POSICION_RELOJ)
+    todosLosSprites.draw(ventana)
+    todosLosSprites.update()
+    pygame.display.flip()
+                

@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-from constantes import leer_sprites, SPRITE_COMIDA
+from constantes import leerSpriteSheet, SPRITE_COMIDA
 
 pygame.init()
 
@@ -9,7 +9,7 @@ class Comida(pygame.sprite.Sprite):
     def __init__(self, mousePos):
         pygame.sprite.Sprite.__init__(self)
         self.comidaEstatica = SPRITE_COMIDA.subsurface((0, 0), (32, 32))
-        self.siendoComida = leer_sprites(0, 5, SPRITE_COMIDA, 32, 32)
+        self.siendoComida = leerSpriteSheet(0, 5, SPRITE_COMIDA, 32, 32)
         self.indexFrame = 0
         self.image = pygame.transform.scale(self.comidaEstatica, (32 * 2, 32 * 2))
         self.empezarComida = False

@@ -21,13 +21,13 @@ def grupoSprites(*sprites):
     return grupo
 
 # Función para guardar el progreso
-def salvarProgreso(fome, limpieza):
-    mascota = (fome, limpieza)
+def salvarProgreso(hambre, limpieza):
+    mascota = (hambre, limpieza)
     with open('guardar_mascota.dat', 'wb') as archivo:
         pickle.dump(mascota, archivo)
 
 # Función para recuperar el progreso
-def recuperarProgreso():
+def recuperarProgreso(hambre, limpieza):
     try:
         with open('guardar_mascota.dat', 'rb') as archivo:
             mascota = pickle.load(archivo)

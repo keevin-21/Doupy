@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-from constantes import leer_hoja_sprites, HOJA_DE_SPRITES, SPRITE_ACARICIAR, SPRITE_COMER
+from constantes import leerSpriteSheet, SPRITE_SHEET, SPRITE_ACARICIAR, SPRITE_COMER
 
 pygame.init()
 
@@ -9,13 +9,13 @@ class Mascota(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         # Configurando los sprites para cada dirección
-        self.imgEstatico = leer_hoja_sprites(0, 3, HOJA_DE_SPRITES, 120, 130)
-        self.imgAbajo = leer_hoja_sprites(3, 13, HOJA_DE_SPRITES, 120, 130)
-        self.imgIzquierda = leer_hoja_sprites(13, 23, HOJA_DE_SPRITES, 120, 130)
-        self.imgArriba = leer_hoja_sprites(23, 33, HOJA_DE_SPRITES, 120, 130)
-        self.imgDerecha = leer_hoja_sprites(33, 43, HOJA_DE_SPRITES, 120, 130)
-        self.imgAcariciar = leer_hoja_sprites(0, 3, SPRITE_ACARICIAR, 120, 130)
-        self.imgComer = leer_hoja_sprites(0, 3, SPRITE_COMER, 120, 130)
+        self.imgEstatico = leerSpriteSheet(0, 3, SPRITE_SHEET, 120, 130)
+        self.imgAbajo = leerSpriteSheet(3, 13, SPRITE_SHEET, 120, 130)
+        self.imgIzquierda = leerSpriteSheet(13, 23, SPRITE_SHEET, 120, 130)
+        self.imgArriba = leerSpriteSheet(23, 33, SPRITE_SHEET, 120, 130)
+        self.imgDerecha = leerSpriteSheet(33, 43, SPRITE_SHEET, 120, 130)
+        self.imgAcariciar = leerSpriteSheet(0, 3, SPRITE_ACARICIAR, 120, 130)
+        self.imgComer = leerSpriteSheet(0, 3, SPRITE_COMER, 120, 130)
         self.accion = 0  # 0: estático 1: abajo 2: izquierda 3: arriba 4: derecha 5: acariciar, 6: comer
         self.indiceFrame = 0
         self.imagen = self.imgEstatico[self.indiceFrame]

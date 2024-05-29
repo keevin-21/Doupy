@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-from constantes import leerSpriteSheet, SPRITES_BARRAS
+from constantes import leerSpriteSheet, SPRITE_BARRA
 
 pygame.init()
 
@@ -8,7 +8,7 @@ class Barras(pygame.sprite.Sprite):
 
     def __init__(self, parametro, posX, posY):
         pygame.sprite.Sprite.__init__(self)
-        self.imgBarra = leerSpriteSheet(0, 15, SPRITES_BARRAS, 60, 20)
+        self.imgBarra = leerSpriteSheet(0, 15, SPRITE_BARRA, 60, 20)
         self.estadoActual = parametro
         self.indexFrame = 0
         self.imagen = self.imgBarra[self.indexFrame]
