@@ -33,10 +33,11 @@ class Comida(pygame.sprite.Sprite):
     def update(self):
         if self.empezarComida and not self.fueComido:
             self.image = self.siendoComida[int(self.indexFrame)]
-            self.indexFrame += 0.005
+            self.indexFrame += 0.1
             if self.indexFrame >= len(self.siendoComida):
-                self.indexFrame = 5
+                self.indexFrame = len(self.siendoComida) - 1
                 self.fueComido = True
+                pygame.time.set_timer(self.desaparecer, 200)
 
         if self.caido and not self.fueComido:
             self.handleCaida()
@@ -57,7 +58,7 @@ class Comida(pygame.sprite.Sprite):
         if self.rect.y >= suelo:
             self.comidaTirada = True
             self.caido = False
-            pygame.time.set_timer(self.desaparecer, 2000)
+            pygame.time.set_timer(self.desaparecer, 200)
 
     def getSueloPosition(self, sueltoPosicionY):
         if sueltoPosicionY >= 300:
@@ -68,3 +69,7 @@ class Comida(pygame.sprite.Sprite):
             return 330
         else:
             return 290
+
+    def handleDesaparecer(self):
+        if self.fueComido:
+            self.kill()

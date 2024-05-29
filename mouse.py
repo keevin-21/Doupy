@@ -19,15 +19,14 @@ class Mouse(pygame.sprite.Sprite):
         self.rect.topleft = self.x, self.y
 
     def update(self):
-        if not self.clicar:
-            self.rect.topleft = pygame.mouse.get_pos()
-            self.rect.x -= 32
-
+        if self.clicar == False:
             if pygame.mouse.get_pressed()[0]:
                 self.image = self.clickando
-                self.clicar = True
+                self.rect.x, self.rect.y = pygame.mouse.get_pos()
+                self.rect.x -= 32
             else:
                 self.image = self.estatico
-                self.clicar = False
+                self.rect.x, self.rect.y = pygame.mouse.get_pos()
+                self.rect.x -= 32
 
         self.image = pygame.transform.scale(self.image, (33 * 2, 40 * 2))

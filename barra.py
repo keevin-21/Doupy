@@ -11,16 +11,16 @@ class Barras(pygame.sprite.Sprite):
         self.imgBarra = leerSpriteSheet(0, 15, SPRITE_BARRA, 60, 20)
         self.estadoActual = parametro
         self.indexFrame = 0
-        self.imagen = self.imgBarra[self.indexFrame]
-        self.imagen = pygame.transform.scale(self.imagen, (60, 20))
+        self.image = self.imgBarra[self.indexFrame]
+        self.image = pygame.transform.scale(self.image, (60, 20))
         self.x = posX
         self.y = posY
-        self.rect = self.imagen.get_rect()
+        self.rect = self.image.get_rect()
         self.rect.topleft = self.x, self.y
 
     def update(self):
-        self.imagen = self.imgBarra[int(self.indexFrame)]
-        self.imagen = pygame.transform.scale(self.imagen, (60, 20))
+        self.image = self.imgBarra[int(self.indexFrame)]
+        self.image = pygame.transform.scale(self.image, (60, 20))
 
     def bajarBarra(self, estado):
         if estado == (self.estadoActual - 10) and self.indexFrame < 15:

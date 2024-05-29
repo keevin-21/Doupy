@@ -9,8 +9,8 @@ pygame.init()
 def leerSpriteSheet(primerNumero, segundoNumero, spriteSheet, anchoSprite, altoSprite):
     imagenes = []
     for i in range(primerNumero, segundoNumero):
-        imagen = spriteSheet.subsurface((i * anchoSprite, 0), (anchoSprite, altoSprite))
-        imagenes.append(imagen)
+        image = spriteSheet.subsurface((i * anchoSprite, 0), (anchoSprite, altoSprite))
+        imagenes.append(image)
     return imagenes
 
 # Función para agrupar sprites
@@ -31,6 +31,7 @@ def recuperarProgreso(hambre, limpieza):
     try:
         with open('guardar_mascota.dat', 'rb') as archivo:
             mascota = pickle.load(archivo)
+            archivo.close()
     except FileNotFoundError:
         mascota = (100, 100)
     return mascota
@@ -39,9 +40,9 @@ def recuperarProgreso(hambre, limpieza):
 DIRECTORIO_PRINCIPAL = os.path.dirname(__file__)
 
 # Pantalla
-ANCHO_PANTALLA = 800
-ALTO_PANTALLA = 600
-POSICION_RELOJ = (500, 10)
+ANCHO_PANTALLA = 640
+ALTO_PANTALLA = 480
+POSICION_RELOJ = (270, 10)
 RELOJ_JUEGO = pygame.time.Clock()
 
 # Colores
