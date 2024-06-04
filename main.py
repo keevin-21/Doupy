@@ -7,10 +7,13 @@ from mascota import Mascota
 from barra import Barras
 from botonComida import BotonComida
 from botonJabon import BotonJabon
+from botonMinijuegos import BotonMinijuegos
 from comida import Comida
 from jabon import Jabon
 from mouse import Mouse
 from constantes import recuperarProgreso, salvarProgreso, leerSpriteSheet, grupoSprites, BACKGROUND, ALTO_PANTALLA, ANCHO_PANTALLA, RELOJ_JUEGO, NEGRO, FUENTE_CS, POSICION_RELOJ
+
+from minijuegos import *
 
 pygame.init() 
 pygame.mixer.music.set_volume(0)
@@ -25,11 +28,12 @@ mascota = Mascota()
 mascota.hambre, mascota.limpieza = recuperarProgreso(mascota.hambre, mascota.limpieza)
 botonComida = BotonComida()
 botonJabon = BotonJabon()
+BotonMinijuegos =  BotonMinijuegos()
 barraComida = Barras(mascota.hambre, 30, 20)
 barraLimpieza = Barras(mascota.limpieza, 30, 50)
 barraFelicidad = Barras(mascota.felicidad, 30, 80)
 mouse = Mouse(pygame.mouse.get_pos())
-todosLosSprites = grupoSprites(botonJabon, mascota, botonComida, barraComida, barraFelicidad, barraLimpieza, mouse)
+todosLosSprites = grupoSprites(botonJabon,BotonMinijuegos, mascota, botonComida, barraComida, barraFelicidad, barraLimpieza, mouse)
 pararComida = False
 comidaExiste = False
 jabonExiste = False
@@ -60,6 +64,10 @@ while True:
                 mascota.nuevoY = randint(200, 350)
 
         if event.type == MOUSEBUTTONDOWN:
+            if event.button == 1 and BotonMinijuegos.rect.collidepoint(mousePos):
+                minijuegos()
+
+        if event.type == MOUSEBUTTONDOWN:
             if event.button == 1 and botonComida.rect.collidepoint(mousePos) and pararComida == False:
                 maca = Comida(mousePos)
                 todosLosSprites.add(maca)
@@ -71,6 +79,8 @@ while True:
                 todosLosSprites.add(jabon)
                 jabonExiste = True
         
+            
+                
         if event.type == pygame.USEREVENT + 2:
             pygame.time.set_timer(maca.desaparecer, 0)
             todosLosSprites.remove(maca)

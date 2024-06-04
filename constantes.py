@@ -57,6 +57,7 @@ SPRITE_SHEET = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, 'link_sprites
 SPRITE_COMIDA = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, 'apple_sprites.png'))
 SPRITE_BOTON_COMIDA = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, 'apple_button.png'))
 SPRITE_BOTON_JABON = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, 'soap_button.png'))
+SPRITE_BOTON_MINIJUEGOS = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, 'minigames_button.png'))
 SPRITE_JABON = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, 'soap_sprites.png'))
 SPRITE_MOUSE = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, 'mouse_sprites.png'))
 SPRITE_ACARICIAR = pygame.image.load(os.path.join(DIRECTORIO_IMAGENES, 'sprites_pet.png'))
